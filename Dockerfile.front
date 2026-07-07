@@ -1,0 +1,35 @@
+# Angular 21 Frontend Dockerfile with Vite
+# Multi-stage build for production
+
+# Stage 1: Build stage
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+# Install dependencies for build
+RUN apk add --no-cache python3 make g++ linux-headers
+
+# Copy package files
+COPY graphs-front/package*.json ./
+
+# Install all dependencies
+RUN npm install
+
+# Copy rest of the application
+COPY graphs-front/ ./
+
+# Build the application
+RUN npm run build
+
+# Stage 2: Production image
+FROM nginx:alpine AS production
+
+# Copy nginx configuration
+COPY graphs-front/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built application (Vite outputs to dist/ by default)
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 4200
+
+CMD ["nginx", "-g", "daemon off;"]

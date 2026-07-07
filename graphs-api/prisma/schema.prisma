@@ -1,0 +1,62 @@
+// Prisma Schema for GRAPHS Project
+// Database: MySQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ============================================================================
+// Enums
+// ============================================================================
+
+enum FlowerType {
+  ROSE
+  TULIP
+  DAISY
+  LILY
+  ORCHID
+  SUNFLOWER
+  VIOLET
+  LAVENDER
+  POPPY
+  JASMINE
+}
+
+enum Quality {
+  GOOD
+  DEGRADED
+  ERROR
+}
+
+// ============================================================================
+// Models
+// ============================================================================
+
+model Serie {
+  id          Int        @id @default(autoincrement())
+  type        FlowerType @unique
+  description String     @db.VarChar(256)
+  points      Point[]
+  createdAt   DateTime   @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime   @updatedAt @db.Timestamp(6)
+
+  @@map("series")
+}
+
+model Point {
+  id           Int      @id @default(autoincrement())
+  serieId      Int
+  serie       Serie    @relation(fields: [serieId], references: [id], onDelete: Cascade)
+  creationDate DateTime @db.Timestamp(6)
+  value        Decimal  @db.Decimal(10, 5)
+  quality      Quality
+
+  @@map("points")
+  @@index([serieId])
+  @@index([creationDate])
+  @@index([quality])
+}

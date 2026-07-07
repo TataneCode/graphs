@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: graphs-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-graphs}
+      MYSQL_USER: ${MYSQL_USER:-app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-apppassword}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-rootpassword}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    networks:
+      - graphs-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: graphs-api
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-apppassword}@mysql:3306/${MYSQL_DATABASE:-graphs}
+      PORT: 3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./graphs-api:/app
+      - /app/node_modules
+    working_dir: /app
+    networks:
+      - graphs-network
+
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile.front
+      args:
+        NODE_ENV: ${NODE_ENV:-development}
+    container_name: graphs-front
+    ports:
+      - "${FRONT_PORT:-4200}:4200"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      API_URL: http://api:3000
+    depends_on:
+      - api
+    restart: unless-stopped
+    volumes:
+      - ./graphs-front:/app
+      - /app/node_modules
+    working_dir: /app
+    networks:
+      - graphs-network
+    profiles:
+      - dev
+
+volumes:
+  mysql_data:
+
+networks:
+  graphs-network:
+    driver: bridge
