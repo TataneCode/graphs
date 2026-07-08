@@ -15,7 +15,7 @@ describe('SerieMapper', () => {
 
   describe('toResponseDto', () => {
     it('should map Prisma Serie to SerieResponseDto', () => {
-      const result = SerieMapper.toResponseDto(mockSerie as any);
+      const result = SerieMapper.toResponseDto(mockSerie);
 
       expect(result.id).toBe(1);
       expect(result.type).toBe(FlowerType.ROSE);
@@ -28,11 +28,9 @@ describe('SerieMapper', () => {
     it('should map with points included', () => {
       const serieWithPoints = {
         ...mockSerie,
-        points: [
-          { id: 1, creationDate: new Date(), value: 100, quality: 'GOOD' },
-        ],
+        points: [{ id: 1, creationDate: new Date(), value: 100, quality: 'GOOD' }],
       };
-      const result = SerieMapper.toResponseDto(serieWithPoints as any);
+      const result = SerieMapper.toResponseDto(serieWithPoints);
 
       expect(result.points).toHaveLength(1);
       expect(result.points?.[0].id).toBe(1);
@@ -42,7 +40,7 @@ describe('SerieMapper', () => {
   describe('toResponseDtos', () => {
     it('should map array of Series to array of SerieResponseDtos', () => {
       const series = [mockSerie, { ...mockSerie, id: 2, type: 'TULIP' as const }];
-      const results = SerieMapper.toResponseDtos(series as any);
+      const results = SerieMapper.toResponseDtos(series);
 
       expect(results).toHaveLength(2);
       expect(results[0].id).toBe(1);

@@ -93,7 +93,7 @@ describe('CreatePointDto', () => {
       dto.serieId = 1;
       dto.creationDate = '2024-01-15T10:30:00Z';
       dto.value = 100;
-      dto.quality = quality as Quality;
+      dto.quality = quality;
 
       const errors = await validate(dto);
       expect(errors).toHaveLength(0);

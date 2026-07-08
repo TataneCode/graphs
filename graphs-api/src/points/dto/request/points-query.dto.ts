@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsArray, IsDateString, IsNumber, IsOptional, Min } from 'class-validator';
-import { Quality } from '../../../common/enums/quality.enum';
+import { Quality } from '@prisma/client';
 
 export class PointsQueryDto {
   @IsOptional()
@@ -9,7 +9,7 @@ export class PointsQueryDto {
     if (typeof value === 'string') {
       return value.split(',').map((v: string) => Number(v));
     }
-    return value satisfies number[];
+    return value;
   })
   serieIds?: number[];
 
@@ -25,9 +25,9 @@ export class PointsQueryDto {
   @IsArray()
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      return value.split(',') as unknown as Quality[];
+      return value.split(',') as Quality[];
     }
-    return value as unknown as Quality[];
+    return value as Quality[];
   })
   qualityFilter?: Quality[];
 

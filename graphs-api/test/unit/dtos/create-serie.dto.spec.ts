@@ -63,7 +63,7 @@ describe('CreateSerieDto', () => {
 
     for (const type of flowerTypes) {
       const dto = new CreateSerieDto();
-      dto.type = type as FlowerType;
+      dto.type = type;
       dto.description = `Test ${type}`;
 
       const errors = await validate(dto);

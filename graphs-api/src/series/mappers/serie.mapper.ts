@@ -1,4 +1,4 @@
-import { Serie as PrismaSerie, Point as PrismaPoint, FlowerType } from '@prisma/client';
+import { Serie as PrismaSerie, Point as PrismaPoint } from '@prisma/client';
 import { SerieResponseDto } from '../dto/response/serie-response.dto';
 import { CreateSerieDto } from '../dto/request/create-serie.dto';
 import { PointMapper } from '../../points/mappers/point.mapper';
@@ -7,7 +7,7 @@ export class SerieMapper {
   static toResponseDto(serie: PrismaSerie & { points?: unknown }): SerieResponseDto {
     const dto = new SerieResponseDto({
       id: serie.id,
-      type: serie.type as FlowerType,
+      type: serie.type,
       description: serie.description,
       createdAt: serie.createdAt.toISOString(),
       updatedAt: serie.updatedAt.toISOString(),

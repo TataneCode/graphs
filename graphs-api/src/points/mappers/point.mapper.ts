@@ -1,4 +1,4 @@
-import { Point as PrismaPoint, Quality } from '@prisma/client';
+import { Point as PrismaPoint } from '@prisma/client';
 import { PointResponseDto } from '../dto/response/point-response.dto';
 import { CreatePointDto } from '../dto/request/create-point.dto';
 
@@ -9,7 +9,7 @@ export class PointMapper {
       serieId: point.serieId,
       creationDate: point.creationDate.toISOString(),
       value: Number(point.value),
-      quality: point.quality as Quality,
+      quality: point.quality,
     });
   }
 
