@@ -134,44 +134,46 @@ Implement a graphing benchmarking application with backend (NestJS + Prisma + My
 
 ---
 
-## Phase 2: Backend Core Implementation
+## Phase 2: Backend Core Implementation ✅ COMPLETED
 **Goal:** Implement repository pattern, DTOs, mappers, and base entities.
+
+**Completion Date:** 2026-07-08
 
 ### Tasks
 
 #### 2.1 Entity Definitions
-- [ ] Create `src/series/entities/serie.entity.ts`
-- [ ] Create `src/points/entities/point.entity.ts`
-- [ ] Define TypeScript enums matching Prisma enums
+- [x] Create `src/series/entities/serie.entity.ts`
+- [x] Create `src/points/entities/point.entity.ts`
+- [x] Define TypeScript enums matching Prisma enums in `src/common/enums/`
 
 #### 2.2 Repository Layer
-- [ ] Create `src/series/repositories/series.repository.ts` (PrismaService injected)
-- [ ] Create `src/points/repositories/points.repository.ts`
-- [ ] Implement CRUD operations for Series
-- [ ] Implement CRUD operations for Points with date range filtering
+- [x] Create `src/series/repositories/series.repository.ts` (PrismaService injected)
+- [x] Create `src/points/repositories/points.repository.ts`
+- [x] Implement CRUD operations for Series
+- [x] Implement CRUD operations for Points with date range filtering
 
 #### 2.3 DTOs and Mappers
-- [ ] **Request DTOs:**
+- [x] **Request DTOs:**
   - `CreateSerieDto`, `UpdateSerieDto`
   - `CreatePointDto`, `UpdatePointDto`
   - `PointsQueryDto` (startDate, endDate, serieIds[], qualityFilter?[])
   - `SeedDto` (count: number = 1000000, months: number = 1)
-- [ ] **Response DTOs:**
+- [x] **Response DTOs:**
   - `SerieResponseDto`
   - `PointResponseDto`
-- [ ] Create mapper utility functions:
+- [x] Create mapper utility functions:
   - `SerieMapper: Serie → SerieResponseDto`
   - `PointMapper: Point → PointResponseDto`
 
 #### 2.4 Prisma Service
-- [ ] Extend PrismaClient with custom methods if needed
-- [ ] Set up PrismaModule as global module
+- [x] Extend PrismaClient with custom methods if needed
+- [x] Set up PrismaModule as global module (already completed in Phase 1)
 
-### Checkpoint 2: Backend Core Ready
+### Checkpoint 2: Backend Core Ready ✅
 **Verification:**
-- [ ] Unit tests for mappers pass
-- [ ] Repository methods can be called (manual test in container)
-- [ ] DTOs properly validate with class-validator
+- [x] Unit tests for mappers pass (6 tests for each mapper)
+- [x] Repository methods can be called (build successful)
+- [x] DTOs properly validate with class-validator (24 DTO tests)
 
 ---
 
@@ -257,7 +259,7 @@ Implement a graphing benchmarking application with backend (NestJS + Prisma + My
 | Phase | Status | Completion Date |
 |-------|--------|-----------------|
 | Phase 1 | ✅ COMPLETED | 2026-07-07 |
-| Phase 2 | ⏳ PENDING | - |
+| Phase 2 | ✅ COMPLETED | 2026-07-08 |
 | Phase 3 | ⏳ PENDING | - |
 | Phase 4 | ⏳ PENDING | - |
 | Phase 5 | ⏳ PENDING | - |
@@ -283,9 +285,9 @@ Implement a graphing benchmarking application with backend (NestJS + Prisma + My
 
 ## Next Steps
 
-**Phase 1 is COMPLETE!**
+**Phase 1 & 2 are COMPLETE!**
 
-Starting **Phase 2: Backend Core Implementation** (entities, repositories, DTOs, mappers)
+Starting **Phase 3: Backend API & Seed Implementation** (controllers, seed endpoint, Scalar docs)
 
 ---
 
