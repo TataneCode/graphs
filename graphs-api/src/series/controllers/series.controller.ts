@@ -62,10 +62,7 @@ export class SeriesController {
   @ApiBody({ type: UpdateSerieDto })
   @ApiResponse({ status: 200, description: 'Serie updated', type: SerieResponseDto })
   @ApiResponse({ status: 404, description: 'Serie not found' })
-  async update(
-    @Param('id') id: number,
-    @Body() dto: UpdateSerieDto,
-  ): Promise<SerieResponseDto> {
+  async update(@Param('id') id: number, @Body() dto: UpdateSerieDto): Promise<SerieResponseDto> {
     const serie = await this.seriesRepository.update(id, dto);
     if (!serie) {
       throw new Error('Serie not found');

@@ -16,9 +16,7 @@ describe('SeedController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SeedController],
-      providers: [
-        { provide: SeedService, useValue: mockSeedService },
-      ],
+      providers: [{ provide: SeedService, useValue: mockSeedService }],
     }).compile();
 
     controller = module.get<SeedController>(SeedController);

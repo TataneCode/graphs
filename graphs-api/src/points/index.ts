@@ -7,4 +7,3 @@ export * from './mappers/point.mapper';
 export * from './repositories/points.repository';
 export * from './points.module';
 export * from './controllers/points.controller';
-

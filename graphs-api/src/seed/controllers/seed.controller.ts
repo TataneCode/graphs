@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Post,
-  Delete,
-  Body,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Post, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { SeedService } from '../services/seed.service';
 import { SeedDto } from '../dto/request/seed.dto';
@@ -20,7 +13,9 @@ export class SeedController {
   @ApiOperation({ summary: 'Seed database with sample data' })
   @ApiBody({ type: SeedDto })
   @ApiResponse({ status: 201, description: 'Database seeded successfully' })
-  async seed(@Body() dto: SeedDto): Promise<{ message: string; seriesCreated: number; pointsCreated: number }> {
+  async seed(
+    @Body() dto: SeedDto
+  ): Promise<{ message: string; seriesCreated: number; pointsCreated: number }> {
     const result = await this.seedService.seed(dto);
     return {
       message: 'Database seeded successfully',

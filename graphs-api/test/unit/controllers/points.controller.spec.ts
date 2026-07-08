@@ -33,16 +33,16 @@ describe('PointsController', () => {
     mockPointsRepository = {
       findAll: (query?: PointsQueryDto) => Promise.resolve([mockPoint] as any),
       findById: (id: number) => Promise.resolve(id === 1 ? { ...mockPoint } : null),
-      create: (dto: CreatePointDto) => Promise.resolve({ ...mockPoint, ...dto, creationDate: new Date(dto.creationDate) }),
-      update: (id: number, dto: UpdatePointDto) => Promise.resolve(id === 1 ? { ...mockPoint, ...dto } : null),
+      create: (dto: CreatePointDto) =>
+        Promise.resolve({ ...mockPoint, ...dto, creationDate: new Date(dto.creationDate) }),
+      update: (id: number, dto: UpdatePointDto) =>
+        Promise.resolve(id === 1 ? { ...mockPoint, ...dto } : null),
       delete: (id: number) => Promise.resolve(id === 1 ? mockPoint : null),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PointsController],
-      providers: [
-        { provide: PointsRepository, useValue: mockPointsRepository },
-      ],
+      providers: [{ provide: PointsRepository, useValue: mockPointsRepository }],
     }).compile();
 
     controller = module.get<PointsController>(PointsController);

@@ -4,13 +4,11 @@ import { SeriesRepository } from '../../series/repositories/series.repository';
 import { PointsRepository } from '../../points/repositories/points.repository';
 import { SeedDto } from '../dto/request/seed.dto';
 
-
-
 @Injectable()
 export class SeedService {
   constructor(
     private readonly seriesRepository: SeriesRepository,
-    private readonly pointsRepository: PointsRepository,
+    private readonly pointsRepository: PointsRepository
   ) {}
 
   private readonly flowerDescriptions: Record<string, string> = {
@@ -31,7 +29,7 @@ export class SeedService {
 
     // Create all 10 flower series first
     const existingSeries = await this.seriesRepository.findAll();
-    
+
     if (existingSeries.length === 0) {
       // Create all flower types
       const flowerTypes = Object.values(FlowerType) as FlowerType[];
@@ -82,14 +80,12 @@ export class SeedService {
           creationDate: pointDate,
           value: value as unknown as Prisma.Decimal,
           quality,
-        } as Omit<Point, 'id'>);
+        });
       }
     }
 
     // Batch insert for better performance
-    await this.pointsRepository.createMany(
-      pointsToCreate as Array<Omit<Point, 'id'>>
-    );
+    await this.pointsRepository.createMany(pointsToCreate);
 
     return {
       seriesCreated: allSeries.length,

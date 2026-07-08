@@ -33,21 +33,29 @@ describe('SeriesController', () => {
       findAll: () => Promise.resolve([mockSerie] as any),
       findById: (id: number) => Promise.resolve(id === 1 ? { ...mockSerie } : null),
       create: (dto: CreateSerieDto) => Promise.resolve({ ...mockSerie, ...dto }),
-      update: (id: number, dto: UpdateSerieDto) => Promise.resolve(id === 1 ? { ...mockSerie, ...dto } : null),
+      update: (id: number, dto: UpdateSerieDto) =>
+        Promise.resolve(id === 1 ? { ...mockSerie, ...dto } : null),
       delete: (id: number) => Promise.resolve(id === 1 ? mockSerie : null),
     };
 
     mockSerieMapper = {
-      toResponseDto: (serie: any) => ({ ...serie, createdAt: serie.createdAt.toISOString(), updatedAt: serie.updatedAt.toISOString() }),
-      toResponseDtos: (series: any[]) => series.map((serie) => ({ ...serie, createdAt: serie.createdAt.toISOString(), updatedAt: serie.updatedAt.toISOString() })),
+      toResponseDto: (serie: any) => ({
+        ...serie,
+        createdAt: serie.createdAt.toISOString(),
+        updatedAt: serie.updatedAt.toISOString(),
+      }),
+      toResponseDtos: (series: any[]) =>
+        series.map((serie) => ({
+          ...serie,
+          createdAt: serie.createdAt.toISOString(),
+          updatedAt: serie.updatedAt.toISOString(),
+        })),
       toCreateInput: (dto: CreateSerieDto) => ({ type: dto.type, description: dto.description }),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SeriesController],
-      providers: [
-        { provide: SeriesRepository, useValue: mockSeriesRepository },
-      ],
+      providers: [{ provide: SeriesRepository, useValue: mockSeriesRepository }],
     }).compile();
 
     controller = module.get<SeriesController>(SeriesController);

@@ -9,6 +9,7 @@ export class PointsQueryDto {
     if (typeof value === 'string') {
       return value.split(',').map((v: string) => Number(v));
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return value;
   })
   serieIds?: number[];

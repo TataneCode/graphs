@@ -6,4 +6,3 @@ export * from './mappers/serie.mapper';
 export * from './repositories/series.repository';
 export * from './series.module';
 export * from './controllers/series.controller';
-

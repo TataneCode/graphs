@@ -65,10 +65,7 @@ export class PointsController {
   @ApiBody({ type: UpdatePointDto })
   @ApiResponse({ status: 200, description: 'Point updated', type: PointResponseDto })
   @ApiResponse({ status: 404, description: 'Point not found' })
-  async update(
-    @Param('id') id: number,
-    @Body() dto: UpdatePointDto,
-  ): Promise<PointResponseDto> {
+  async update(@Param('id') id: number, @Body() dto: UpdatePointDto): Promise<PointResponseDto> {
     const point = await this.pointsRepository.update(id, dto);
     if (!point) {
       throw new Error('Point not found');
