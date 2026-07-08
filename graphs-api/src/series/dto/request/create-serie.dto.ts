@@ -1,5 +1,7 @@
 import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { FlowerType } from '../../../common/enums/flower-type.enum';
+import { FlowerType } from '@prisma/client';
+
+export { FlowerType };
 
 export class CreateSerieDto {
   @IsEnum(FlowerType)

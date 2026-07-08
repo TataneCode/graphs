@@ -4,3 +4,6 @@ export * from './dto/request/update-serie.dto';
 export * from './dto/response/serie-response.dto';
 export * from './mappers/serie.mapper';
 export * from './repositories/series.repository';
+export * from './series.module';
+export * from './controllers/series.controller';
+
