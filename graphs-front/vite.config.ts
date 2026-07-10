@@ -1,20 +1,21 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => ({
   plugins: [
-    tsconfigPaths({
-      projects: ['src'],
-      ignoreConfigErrors: true,
-    }),
     angular({
       jit: true,
       tsconfig: 'tsconfig.app.json',
       inlineStylesExtension: ['scss'],
     }),
   ],
+  resolve: {
+    tsconfigPaths: true,
+    alias: {
+      '@': '/src',
+    },
+  },
   build: {
     target: ['es2020'],
     rollupOptions: {
@@ -31,10 +32,10 @@ export default defineConfig(({ mode }) => ({
   },
   server: {
     port: 4200,
-    host: true,
+    host: '0.0.0.0',
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: process.env.API_URL || 'http://localhost:3000',
         changeOrigin: true,
       },
     },
@@ -59,11 +60,6 @@ export default defineConfig(({ mode }) => ({
         'src/index.html',
         'src/styles.scss',
       ],
-    },
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
     },
   },
   define: {

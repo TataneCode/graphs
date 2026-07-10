@@ -30,4 +30,5 @@ export interface SeriesQueryParams {
   skip?: number;
   take?: number;
   type?: FlowerType;
+  [key: string]: number | FlowerType | undefined;
 }

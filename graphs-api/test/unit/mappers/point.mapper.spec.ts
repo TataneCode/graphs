@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { PointMapper } from '../../../src/points/mappers/point.mapper';
-import { Quality } from '../../../src/common/enums/quality.enum';
-import { CreatePointDto } from '../../../src/points/dto/request/create-point.dto';
+import { PointMapper } from '@/points/mappers/point.mapper';
+import { Quality } from '@/common/enums/quality.enum';
+import { CreatePointDto } from '@/points/dto/request/create-point.dto';
 
 describe('PointMapper', () => {
   const mockPoint = {

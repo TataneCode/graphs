@@ -1,17 +1,20 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DateUtils } from '../../app/core/utils';
-import { SeriesStore, PointsStore, SeedStore } from '../../app/core/stores';
+import { DateUtils } from '@/app/core/utils';
+import { SeriesStore, PointsStore, SeedStore } from '@/app/core/stores';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DestroyRef } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {
   DatePickerComponent,
   ButtonComponent,
   CheckboxComponent,
-} from '../../app/shared/components/ui';
+} from '@/app/shared/components/ui';
 import {
   EchartsChartComponent,
   HighchartsChartComponent,
   ScichartChartComponent,
-} from '../../app/shared/components/charts';
+} from '@/app/shared/components/charts';
 
 @Component({
   selector: 'app-analogic-page',
@@ -239,9 +242,11 @@ import {
   ],
 })
 export class AnalogicPage implements OnInit {
-  private readonly seriesStore = inject(SeriesStore);
-  private readonly pointsStore = inject(PointsStore);
-  private readonly seedStore = inject(SeedStore);
+  private readonly seriesStore: any = inject(SeriesStore);
+  private readonly pointsStore: any = inject(PointsStore);
+  private readonly seedStore: any = inject(SeedStore);
+  private readonly destroyRef = inject(DestroyRef);
+  private subscriptions = new Subscription();
 
   // State
   startDate = signal<string>(DateUtils.formatForInput(DateUtils.oneMonthAgo()));
@@ -267,6 +272,7 @@ export class AnalogicPage implements OnInit {
 
   // Computed properties
   allSeries = this.seriesStore.allSeries;
+  points = this.pointsStore.allPoints;
   filteredPoints = this.pointsStore.allPoints;
   lastSeedInfo = this.seedStore.lastSeedInfo;
   selectedSeriesCount = this.seriesStore.selectedSeries;
@@ -280,15 +286,19 @@ export class AnalogicPage implements OnInit {
     this.loadInitialData();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   private loadInitialData(): void {
     this.loading.set(true);
     this.error.set('');
 
     // Load series first
-    this.seriesStore.loadAll(undefined);
+    this.subscriptions.add(this.seriesStore.loadAll(undefined).subscribe());
 
     // Then load points
-    this.pointsStore.load();
+    this.subscriptions.add(this.pointsStore.load().subscribe());
 
     this.loading.set(false);
   }
@@ -305,12 +315,12 @@ export class AnalogicPage implements OnInit {
 
   isFlowerSelected(flowerType: string): boolean {
     const selected = this.seriesStore.selectedSeries();
-    return selected.some((s) => s.type === flowerType);
+    return selected.some((s: any) => s.type === flowerType);
   }
 
   toggleFlowerSelection(flowerType: string, checked: boolean): void {
     const allSeries = this.seriesStore.allSeries();
-    const serie = allSeries.find((s) => s.type === flowerType);
+    const serie = allSeries.find((s: any) => s.type === flowerType);
 
     if (serie) {
       if (checked) {
@@ -351,14 +361,14 @@ export class AnalogicPage implements OnInit {
     this.seeding.set(true);
     this.error.set('');
 
-    this.seedStore.seed({ count: 1000000, months: 1 });
+    this.subscriptions.add(this.seedStore.seed({ count: 1000000, months: 1 }).subscribe());
 
     this.seeding.set(false);
   }
 
   clearData(): void {
     if (confirm('Are you sure you want to clear all points?')) {
-      this.seedStore.clearAll();
+      this.subscriptions.add(this.seedStore.clearAll().subscribe());
     }
   }
 }

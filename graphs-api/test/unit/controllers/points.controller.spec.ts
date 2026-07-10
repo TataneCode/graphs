@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { PointsController } from '../../../src/points/controllers/points.controller';
-import { PointsRepository } from '../../../src/points/repositories/points.repository';
-import { PointMapper } from '../../../src/points/mappers/point.mapper';
-import { CreatePointDto } from '../../../src/points/dto/request/create-point.dto';
-import { UpdatePointDto } from '../../../src/points/dto/request/update-point.dto';
-import { PointsQueryDto } from '../../../src/points/dto/request/points-query.dto';
+import { PointsController } from '@/points/controllers/points.controller';
+import { PointsRepository } from '@/points/repositories/points.repository';
+import { PointMapper } from '@/points/mappers/point.mapper';
+import { CreatePointDto } from '@/points/dto/request/create-point.dto';
+import { UpdatePointDto } from '@/points/dto/request/update-point.dto';
+import { PointsQueryDto } from '@/points/dto/request/points-query.dto';
 import { Quality } from '@prisma/client';
 
 describe('PointsController', () => {

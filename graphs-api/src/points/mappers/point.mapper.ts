@@ -1,6 +1,6 @@
 import { Point as PrismaPoint } from '@prisma/client';
-import { PointResponseDto } from '../dto/response/point-response.dto';
-import { CreatePointDto } from '../dto/request/create-point.dto';
+import { PointResponseDto } from '@/points/dto/response/point-response.dto';
+import { CreatePointDto } from '@/points/dto/request/create-point.dto';
 
 export class PointMapper {
   static toResponseDto(point: PrismaPoint): PointResponseDto {

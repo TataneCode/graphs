@@ -1,5 +1,5 @@
 import { FlowerType } from '@prisma/client';
-import { PointResponseDto } from '../../../points/dto/response/point-response.dto';
+import { PointResponseDto } from '@/points/dto/response/point-response.dto';
 
 export { FlowerType };
 

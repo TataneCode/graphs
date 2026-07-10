@@ -10,11 +10,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
-import { SeriesRepository } from '../repositories/series.repository';
-import { SerieMapper } from '../mappers/serie.mapper';
-import { CreateSerieDto } from '../dto/request/create-serie.dto';
-import { UpdateSerieDto } from '../dto/request/update-serie.dto';
-import { SerieResponseDto } from '../dto/response/serie-response.dto';
+import { SeriesRepository } from '@/series/repositories/series.repository';
+import { SerieMapper } from '@/series/mappers/serie.mapper';
+import { CreateSerieDto } from '@/series/dto/request/create-serie.dto';
+import { UpdateSerieDto } from '@/series/dto/request/update-serie.dto';
+import { SerieResponseDto } from '@/series/dto/response/serie-response.dto';
 
 @ApiTags('Series')
 @Controller('series')

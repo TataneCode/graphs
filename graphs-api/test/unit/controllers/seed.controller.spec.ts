@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { SeedController } from '../../../src/seed/controllers/seed.controller';
-import { SeedService } from '../../../src/seed/services/seed.service';
-import { SeedDto } from '../../../src/seed/dto/request/seed.dto';
+import { SeedController } from '@/seed/controllers/seed.controller';
+import { SeedService } from '@/seed/services/seed.service';
+import { SeedDto } from '@/seed/dto/request/seed.dto';
 
 describe('SeedController', () => {
   let controller: SeedController;

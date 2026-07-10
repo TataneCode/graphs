@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { SerieMapper } from '../../../src/series/mappers/serie.mapper';
-import { FlowerType } from '../../../src/common/enums/flower-type.enum';
-import { CreateSerieDto } from '../../../src/series/dto/request/create-serie.dto';
+import { SerieMapper } from '@/series/mappers/serie.mapper';
+import { FlowerType } from '@/common/enums/flower-type.enum';
+import { CreateSerieDto } from '@/series/dto/request/create-serie.dto';
 
 describe('SerieMapper', () => {
   const mockSerie = {

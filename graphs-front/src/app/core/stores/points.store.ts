@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
-import { Point, PointsQueryParams } from '../models';
-import { PointsApiService } from '../services';
-import { SeriesStore } from './series.store';
+import { Point, PointsQueryParams } from '@/app/core/models';
+import { PointsApiService } from '@/app/core/services';
+import { SeriesStore } from '@/app/core/stores/series.store';
 
 interface PointsState {
   points: Point[];
@@ -40,8 +40,11 @@ const initialState: PointsState = {
 export class PointsStore extends signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withMethods((store, pointsApi = inject(PointsApiService), seriesStore = inject(SeriesStore)) => ({
-    // State getters
+  withMethods((store: any) => {
+    const pointsApi = inject(PointsApiService);
+    const seriesStore = inject(SeriesStore);
+    return {
+      // State getters
     allPoints: (): Point[] => store.points(),
     loading: (): boolean => store.loading(),
     error: (): string | null => store.error(),
@@ -149,7 +152,7 @@ export class PointsStore extends signalStore(
             tap((response) => {
               const point = pointsApi.mapResponseToModel(response);
               const currentPoints = store.points();
-              if (!currentPoints.some((p) => p.id === point.id)) {
+              if (!currentPoints.some((p: Point) => p.id === point.id)) {
                 store.patchState({
                   points: [...currentPoints, point],
                   loading: false,
@@ -161,11 +164,11 @@ export class PointsStore extends signalStore(
       )
     ),
 
-    create: rxMethod<{ serieId: number; creationDate: string; value: number; quality: string }>(
+    create: rxMethod<{ serieId: number; creationDate: string; value: number; quality: any }>(
       pipe(
         tap(() => store.patchState({ loading: true, error: null })),
         switchMap((request) => {
-          return pointsApi.create(request).pipe(
+          return pointsApi.create(request as any).pipe(
             tap((response) => {
               const point = pointsApi.mapResponseToModel(response);
               store.patchState({
@@ -183,15 +186,15 @@ export class PointsStore extends signalStore(
       serieId?: number;
       creationDate?: string;
       value?: number;
-      quality?: string;
+      quality?: any;
     }>(
       pipe(
         tap(() => store.patchState({ loading: true, error: null })),
         switchMap((request) => {
-          return pointsApi.update(request.id, request).pipe(
+          return pointsApi.update(request.id, request as any).pipe(
             tap((response) => {
               const point = pointsApi.mapResponseToModel(response);
-              const updatedPoints = store.points().map((p) => (p.id === point.id ? point : p));
+              const updatedPoints = store.points().map((p: Point) => (p.id === point.id ? point : p));
               store.patchState({
                 points: updatedPoints,
                 loading: false,
@@ -206,9 +209,9 @@ export class PointsStore extends signalStore(
       pipe(
         tap(() => store.patchState({ loading: true, error: null })),
         switchMap((id) => {
-          return pointsApi.delete(id).pipe(
+          return pointsApi.deleteById(id).pipe(
             tap(() => {
-              const filteredPoints = store.points().filter((p) => p.id !== id);
+              const filteredPoints = store.points().filter((p: Point) => p.id !== id);
               store.patchState({
                 points: filteredPoints,
                 loading: false,
@@ -220,27 +223,28 @@ export class PointsStore extends signalStore(
     ),
 
     // Helper methods
-    getPointsBySerie: (serieId: number) => {
-      return store.points().filter((p) => p.serieId === serieId);
+    getPointsBySerie: (serieId: number): Point[] => {
+      return store.points().filter((p: Point) => p.serieId === serieId);
     },
 
-    getPointsInDateRange: (startDate: Date, endDate: Date) => {
-      return store.points().filter((p) => {
+    getPointsInDateRange: (startDate: Date, endDate: Date): Point[] => {
+      return store.points().filter((p: Point) => {
         const pointDate = p.creationDate;
         return pointDate >= startDate && pointDate <= endDate;
       });
     },
 
-    clearError: () => {
+    clearError: (): void => {
       store.patchState({ error: null });
     },
 
-    setError: (error: string) => {
+    setError: (error: string): void => {
       store.patchState({ error, loading: false });
     },
 
-    reset: () => {
+    reset: (): void => {
       store.patchState(initialState);
     },
-  }))
+  }
+})
 ) {}

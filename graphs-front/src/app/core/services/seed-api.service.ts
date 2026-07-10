@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseApiService } from './base-api.service';
-import { SeedRequest, SeedResponse, SeedDeleteResponse } from '../models';
+import { BaseApiService } from '@/app/core/services/base-api.service';
+import { SeedRequest, SeedResponse, SeedDeleteResponse } from '@/app/core/models';
 
 @Injectable({
   providedIn: 'root',

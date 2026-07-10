@@ -11,12 +11,12 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { PointsRepository } from '../repositories/points.repository';
-import { PointMapper } from '../mappers/point.mapper';
-import { CreatePointDto } from '../dto/request/create-point.dto';
-import { UpdatePointDto } from '../dto/request/update-point.dto';
-import { PointsQueryDto } from '../dto/request/points-query.dto';
-import { PointResponseDto } from '../dto/response/point-response.dto';
+import { PointsRepository } from '@/points/repositories/points.repository';
+import { PointMapper } from '@/points/mappers/point.mapper';
+import { CreatePointDto } from '@/points/dto/request/create-point.dto';
+import { UpdatePointDto } from '@/points/dto/request/update-point.dto';
+import { PointsQueryDto } from '@/points/dto/request/points-query.dto';
+import { PointResponseDto } from '@/points/dto/response/point-response.dto';
 
 @ApiTags('Points')
 @Controller('points')

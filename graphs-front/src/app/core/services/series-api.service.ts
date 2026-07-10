@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from '@/app/core/services/base-api.service';
 import {
   SerieResponse,
   Serie,
   CreateSerieRequest,
   UpdateSerieRequest,
   SeriesQueryParams,
-} from '../models';
+} from '@/app/core/models';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class SeriesApiService extends BaseApiService {
   private readonly endpoint = '/series';
 
   getAll(params?: SeriesQueryParams): Observable<SerieResponse[]> {
-    return this.get<SerieResponse[]>(this.endpoint, params);
+    return this.get<SerieResponse[]>(this.endpoint, params as any);
   }
 
   getById(id: number): Observable<SerieResponse> {
@@ -31,8 +31,10 @@ export class SeriesApiService extends BaseApiService {
     return this.put<SerieResponse, UpdateSerieRequest>(`${this.endpoint}/${id}`, updateRequest);
   }
 
-  delete(id: number): Observable<SerieResponse> {
-    return this.delete<SerieResponse>(`${this.endpoint}/${id}`);
+  deleteById(id: number): Observable<SerieResponse> {
+    return this.http.delete<SerieResponse>(this.getFullUrl(`${this.endpoint}/${id}`), {
+      headers: this.getHeaders(),
+    });
   }
 
   // Helper method to map response to model

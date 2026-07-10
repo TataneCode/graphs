@@ -9,8 +9,8 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
-import { BaseChartComponent, ChartData } from '../base-chart.component';
-import { Point, Serie, Quality } from '../../../../app/core/models';
+import { BaseChartComponent, ChartData } from '@/app/shared/components/charts/base-chart.component';
+import { Point, Serie, Quality } from '@/app/core/models';
 
 // SciChart types - using any for flexibility since SciChart JS API varies
 declare const SciChart: any;

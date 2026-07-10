@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { validate } from 'class-validator';
-import { PointsQueryDto } from '../../../src/points/dto/request/points-query.dto';
-import { Quality } from '../../../src/common/enums/quality.enum';
+import { PointsQueryDto } from '@/points/dto/request/points-query.dto';
+import { Quality } from '@/common/enums/quality.enum';
 
 describe('PointsQueryDto', () => {
   it('should pass validation with empty dto', async () => {

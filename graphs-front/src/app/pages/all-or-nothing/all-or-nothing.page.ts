@@ -1,19 +1,19 @@
 import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DateUtils, DataUtils } from '../../app/core/utils';
-import { SeriesStore, PointsStore, SeedStore } from '../../app/core/stores';
+import { DateUtils, DataUtils } from '@/app/core/utils';
+import { SeriesStore, PointsStore, SeedStore } from '@/app/core/stores';
 import {
   DatePickerComponent,
   ButtonComponent,
   DropdownComponent,
   CheckboxComponent,
-} from '../../app/shared/components/ui';
+} from '@/app/shared/components/ui';
 import {
   EchartsChartComponent,
   HighchartsChartComponent,
   ScichartChartComponent,
-} from '../../app/shared/components/charts';
-import { Point, Quality } from '../../app/core/models';
+} from '@/app/shared/components/charts';
+import { Point, Quality } from '@/app/core/models';
 
 @Component({
   selector: 'app-all-or-nothing-page',
@@ -280,9 +280,9 @@ import { Point, Quality } from '../../app/core/models';
   ],
 })
 export class AllOrNothingPage implements OnInit {
-  private readonly seriesStore = inject(SeriesStore);
-  private readonly pointsStore = inject(PointsStore);
-  private readonly seedStore = inject(SeedStore);
+  private readonly seriesStore: any = inject(SeriesStore);
+  private readonly pointsStore: any = inject(PointsStore);
+  private readonly seedStore: any = inject(SeedStore);
 
   // State
   startDate = signal<string>(DateUtils.formatForInput(DateUtils.oneMonthAgo()));
@@ -301,7 +301,7 @@ export class AllOrNothingPage implements OnInit {
 
   flowerTypeOptions = computed(() => {
     const series = this.seriesStore.allSeries();
-    return series.map((s) => ({ value: s.type, label: s.type }));
+    return series.map((s: any) => ({ value: s.type, label: s.type }));
   });
 
   qualityOptions = [
@@ -313,7 +313,7 @@ export class AllOrNothingPage implements OnInit {
   selectedSerie = computed(() => {
     const series = this.seriesStore.allSeries();
     const flowerType = this.selectedFlowerType();
-    return series.find((s) => s.type === flowerType) || series[0];
+    return series.find((s: any) => s.type === flowerType) || series[0];
   });
 
   processedPoints = computed(() => {
@@ -428,7 +428,7 @@ export class AllOrNothingPage implements OnInit {
     // Filter by selected flower type
     const flowerType = this.selectedFlowerType();
     if (flowerType) {
-      const serie = this.seriesStore.allSeries().find((s) => s.type === flowerType);
+      const serie = this.seriesStore.allSeries().find((s: any) => s.type === flowerType);
       if (serie) {
         points = DataUtils.filterBySeriesIds(points, [serie.id]);
       }
@@ -452,7 +452,7 @@ export class AllOrNothingPage implements OnInit {
     this.pointsStore.setDateRange(startDate, endDate);
 
     if (flowerType) {
-      const serie = this.seriesStore.allSeries().find((s) => s.type === flowerType);
+      const serie = this.seriesStore.allSeries().find((s: any) => s.type === flowerType);
       if (serie) {
         this.pointsStore.setSelectedSerieIds([serie.id]);
       }

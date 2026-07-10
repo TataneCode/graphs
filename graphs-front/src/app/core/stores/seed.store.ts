@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
-import { SeedRequest } from '../models';
-import { SeedApiService } from '../services';
-import { PointsStore } from './points.store';
+import { SeedRequest } from '@/app/core/models';
+import { SeedApiService } from '@/app/core/services';
+import { PointsStore } from '@/app/core/stores/points.store';
 
 interface SeedState {
   seeding: boolean;
@@ -30,8 +30,11 @@ const initialState: SeedState = {
 export class SeedStore extends signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withMethods((store, seedApi = inject(SeedApiService), pointsStore = inject(PointsStore)) => ({
-    // State getters
+  withMethods((store: any) => {
+    const seedApi = inject(SeedApiService);
+    const pointsStore = inject(PointsStore);
+    return {
+      // State getters
     seeding: () => store.seeding(),
     clearing: () => store.clearing(),
     error: () => store.error(),
@@ -42,7 +45,7 @@ export class SeedStore extends signalStore(
       pipe(
         tap(() => {
           store.patchState({ seeding: true, error: null });
-          pointsStore.reset();
+          (pointsStore as any).reset();
         }),
         switchMap((request) => {
           return seedApi.seed(request).pipe(
@@ -56,7 +59,7 @@ export class SeedStore extends signalStore(
                 },
               });
             }),
-            switchMap(() => store.load())
+            switchMap(() => (pointsStore as any).load())
           );
         })
       )
@@ -75,7 +78,7 @@ export class SeedStore extends signalStore(
                 clearing: false,
                 lastSeedInfo: null,
               });
-              pointsStore.reset();
+              (pointsStore as any).reset();
             })
           );
         })
@@ -83,7 +86,7 @@ export class SeedStore extends signalStore(
     ),
 
     // Load points after seed operation
-    load: rxMethod<void>(pipe(switchMap(() => pointsStore.load()))),
+    load: rxMethod<void>(pipe(switchMap(() => (pointsStore as any).load()))),
 
     // Helper methods
     clearError: () => {
@@ -97,5 +100,6 @@ export class SeedStore extends signalStore(
     reset: () => {
       store.patchState(initialState);
     },
-  }))
+  }
+})
 ) {}

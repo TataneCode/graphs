@@ -1,7 +1,7 @@
 import { Controller, Post, Delete, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { SeedService } from '../services/seed.service';
-import { SeedDto } from '../dto/request/seed.dto';
+import { SeedService } from '@/seed/services/seed.service';
+import { SeedDto } from '@/seed/dto/request/seed.dto';
 
 @ApiTags('Seed')
 @Controller('seed')

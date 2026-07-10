@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { SeriesController } from '../../../src/series/controllers/series.controller';
-import { SeriesRepository } from '../../../src/series/repositories/series.repository';
-import { SerieMapper } from '../../../src/series/mappers/serie.mapper';
-import { CreateSerieDto } from '../../../src/series/dto/request/create-serie.dto';
-import { UpdateSerieDto } from '../../../src/series/dto/request/update-serie.dto';
+import { SeriesController } from '@/series/controllers/series.controller';
+import { SeriesRepository } from '@/series/repositories/series.repository';
+import { SerieMapper } from '@/series/mappers/serie.mapper';
+import { CreateSerieDto } from '@/series/dto/request/create-serie.dto';
+import { UpdateSerieDto } from '@/series/dto/request/update-serie.dto';
 import { FlowerType } from '@prisma/client';
 
 describe('SeriesController', () => {

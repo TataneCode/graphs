@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { validate } from 'class-validator';
-import { CreateSerieDto } from '../../../src/series/dto/request/create-serie.dto';
-import { FlowerType } from '../../../src/common/enums/flower-type.enum';
+import { CreateSerieDto } from '@/series/dto/request/create-serie.dto';
+import { FlowerType } from '@/common/enums/flower-type.enum';
 
 describe('CreateSerieDto', () => {
   it('should pass validation with valid data', async () => {

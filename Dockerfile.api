@@ -2,7 +2,7 @@
 # Multi-stage build for production, single-stage for development
 
 # Stage 1: Base image
-FROM node:20-alpine AS base
+FROM node:24.18.0-alpine AS base
 
 # Install dependencies
 RUN apk add --no-cache python3 make g++ linux-headers
@@ -26,19 +26,20 @@ RUN npx prisma generate
 RUN npm run build
 
 # Stage 2: Production image
-FROM node:20-alpine AS production
+FROM node:24.18.0-alpine AS production
 
 WORKDIR /app
 
 # Copy package files
 COPY graphs-api/package*.json ./
 
-# Install only production dependencies
-RUN npm install --only=production
+# Install all dependencies (needed for prisma CLI)
+RUN npm install
 
 # Copy built application and Prisma
 COPY --from=base /app/dist ./dist
 COPY --from=base /app/prisma ./prisma
+COPY --from=base /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=base /app/node_modules/@prisma ./node_modules/@prisma
 
 # Create non-root user
@@ -49,4 +50,4 @@ USER nodejs
 
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
+CMD ["sh", "-c", "npx prisma db push --url=$DATABASE_URL && node dist/src/main"]

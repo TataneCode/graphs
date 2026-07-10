@@ -12,6 +12,7 @@ import {
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { LineChart, BarChart, ScatterChart } from 'echarts/charts';
+import type { EChartsCoreOption } from 'echarts/core';
 import {
   TitleComponent,
   TooltipComponent,
@@ -20,8 +21,8 @@ import {
   ToolboxComponent,
   DataZoomComponent,
 } from 'echarts/components';
-import { BaseChartComponent, ChartData } from '../base-chart.component';
-import { Point, Serie } from '../../../../app/core/models';
+import { BaseChartComponent, ChartData } from '@/app/shared/components/charts/base-chart.component';
+import { Point, Serie } from '@/app/core/models';
 
 // Register required components
 echarts.use([
@@ -111,7 +112,7 @@ export class EchartsChartComponent
     this.chart.setOption(options, { notMerge: true });
   }
 
-  private getEChartsOptions(chartData: ChartData): echarts.EChartsOption {
+  private getEChartsOptions(chartData: ChartData): EChartsCoreOption {
     const seriesConfig = chartData.datasets.map((dataset) => ({
       name: dataset.label,
       type: this.chartType() === 'line' ? 'line' : this.chartType() === 'bar' ? 'bar' : 'scatter',

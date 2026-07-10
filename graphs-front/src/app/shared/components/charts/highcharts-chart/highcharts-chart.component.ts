@@ -10,8 +10,8 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { BaseChartComponent, ChartData } from '../base-chart.component';
-import { Point, Serie, Quality } from '../../../../app/core/models';
+import { BaseChartComponent, ChartData } from '@/app/shared/components/charts/base-chart.component';
+import { Point, Serie, Quality } from '@/app/core/models';
 
 @Component({
   selector: 'app-highcharts-chart',
@@ -157,7 +157,7 @@ export class HighchartsChartComponent
           },
         },
       },
-      series: seriesConfig as Highcharts.SeriesOptions[],
+      series: seriesConfig,
       chart: {
         height: '100%',
         width: '100%',

@@ -1,5 +1,5 @@
 import { Component, input, output, signal, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { Point, Serie, Quality, FlowerType } from '../../../app/core/models';
+import { Point, Serie, Quality, FlowerType } from '@/app/core/models';
 
 export interface ChartData {
   labels: string[];
@@ -17,16 +17,16 @@ export interface ChartDataset {
 }
 
 export interface ChartOptions {
-  title?: string;
+  title?: string | { display: boolean; text: string };
   responsive?: boolean;
   maintainAspectRatio?: boolean;
   scales?: {
     x?: {
       type: string;
-      title?: string;
+      title?: string | { display: boolean; text: string };
     };
     y?: {
-      title?: string;
+      title?: string | { display: boolean; text: string };
       min?: number;
       max?: number;
     };
@@ -245,7 +245,7 @@ export class BaseChartComponent implements OnInit, OnChanges {
 
   private updateLegend(): void {
     const seriesList = this.series();
-    const legendItems = seriesList.map((serie) => ({
+    const legendItems: Array<{ label: string; color: string }> = seriesList.map((serie) => ({
       label: serie.type,
       color: this.flowerTypeColors[serie.type],
     }));

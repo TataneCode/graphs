@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service';
 import { Prisma, Point as PrismaPoint } from '@prisma/client';
-import { CreatePointDto } from '../dto/request/create-point.dto';
-import { UpdatePointDto } from '../dto/request/update-point.dto';
-import { PointsQueryDto } from '../dto/request/points-query.dto';
+import { CreatePointDto } from '@/points/dto/request/create-point.dto';
+import { UpdatePointDto } from '@/points/dto/request/update-point.dto';
+import { PointsQueryDto } from '@/points/dto/request/points-query.dto';
 
 @Injectable()
 export class PointsRepository {

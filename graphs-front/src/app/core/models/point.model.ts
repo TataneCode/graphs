@@ -37,4 +37,5 @@ export interface PointsQueryParams {
   endDate?: string; // ISO date string
   serieIds?: number[];
   qualityFilter?: Quality[];
+  [key: string]: number | string | number[] | Quality[] | undefined;
 }

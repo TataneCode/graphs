@@ -1,4 +1,4 @@
-import { Point, Serie, Quality } from '../models';
+import { Point, Serie, Quality } from '@/app/core/models';
 
 export class DataUtils {
   /**
@@ -131,7 +131,7 @@ export class DataUtils {
     return Object.entries(aggregated).map(([key, agg]) => ({
       id: 0, // Will be regenerated on backend
       serieId: points[0].serieId, // Use first point's series
-      creationDate: key,
+      creationDate: new Date(key),
       value: agg.sum / agg.count, // Average
       quality: agg.quality,
     }));

@@ -1,5 +1,5 @@
 import { IsDateString, IsEnum, IsNumber, Max, Min } from 'class-validator';
-import { Quality } from '../../../common/enums/quality.enum';
+import { Quality } from '@/common/enums/quality.enum';
 
 export class CreatePointDto {
   @IsNumber({}, { message: 'serieId must be a number' })

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_BASE_URL } from './api.config';
+import { API_BASE_URL } from '@/app/core/services/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -66,7 +66,7 @@ export class BaseApiService {
     });
   }
 
-  private getHeaders(): HttpHeaders {
+  protected getHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
     });

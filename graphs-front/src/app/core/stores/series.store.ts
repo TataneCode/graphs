@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
-import { Serie, SeriesQueryParams } from '../models';
-import { SeriesApiService } from '../services';
+import { Serie, SeriesQueryParams } from '@/app/core/models';
+import { SeriesApiService } from '@/app/core/services';
 
 interface SeriesState {
   series: Serie[];
@@ -23,10 +23,12 @@ const initialState: SeriesState = {
   providedIn: 'root',
 })
 export class SeriesStore extends signalStore(
-  { providedIn: 'root' },
+  { providedIn: 'root', protectedState: false },
   withState(initialState),
-  withMethods((store, seriesApi = inject(SeriesApiService)) => ({
-    // State getters
+  withMethods((store: any) => {
+    const seriesApi = inject(SeriesApiService);
+    return {
+      // State getters
     allSeries: () => store.series(),
     loading: () => store.loading(),
     error: () => store.error(),
@@ -61,7 +63,7 @@ export class SeriesStore extends signalStore(
               const serie = seriesApi.mapResponseToModel(response);
               // Add to state if not already present
               const currentSeries = store.series();
-              if (!currentSeries.some((s) => s.id === serie.id)) {
+              if (!currentSeries.some((s: any) => s.id === serie.id)) {
                 store.patchState({
                   series: [...currentSeries, serie],
                   loading: false,
@@ -73,11 +75,11 @@ export class SeriesStore extends signalStore(
       )
     ),
 
-    create: rxMethod<{ type: string; description: string }>(
+    create: rxMethod<{ type: any; description: string }>(
       pipe(
         tap(() => store.patchState({ loading: true, error: null })),
         switchMap((request) => {
-          return seriesApi.create(request).pipe(
+          return seriesApi.create(request as any).pipe(
             tap((response) => {
               const serie = seriesApi.mapResponseToModel(response);
               store.patchState({
@@ -90,14 +92,14 @@ export class SeriesStore extends signalStore(
       )
     ),
 
-    update: rxMethod<{ id: number; type?: string; description?: string }>(
+    update: rxMethod<{ id: number; type?: any; description?: string }>(
       pipe(
         tap(() => store.patchState({ loading: true, error: null })),
         switchMap((request) => {
-          return seriesApi.update(request.id, request).pipe(
+          return seriesApi.update(request.id, request as any).pipe(
             tap((response) => {
               const serie = seriesApi.mapResponseToModel(response);
-              const updatedSeries = store.series().map((s) => (s.id === serie.id ? serie : s));
+              const updatedSeries = store.series().map((s: any) => (s.id === serie.id ? serie : s));
               store.patchState({
                 series: updatedSeries,
                 loading: false,
@@ -112,10 +114,10 @@ export class SeriesStore extends signalStore(
       pipe(
         tap(() => store.patchState({ loading: true, error: null })),
         switchMap((id) => {
-          return seriesApi.delete(id).pipe(
+          return seriesApi.deleteById(id).pipe(
             tap(() => {
-              const filteredSeries = store.series().filter((s) => s.id !== id);
-              const filteredSelected = store.selectedSeries().filter((s) => s.id !== id);
+              const filteredSeries = store.series().filter((s: any) => s.id !== id);
+              const filteredSelected = store.selectedSeries().filter((s: any) => s.id !== id);
               store.patchState({
                 series: filteredSeries,
                 selectedSeries: filteredSelected,
@@ -130,7 +132,7 @@ export class SeriesStore extends signalStore(
     // Selection methods
     selectSeries: (serie: Serie) => {
       const currentSelected = store.selectedSeries();
-      if (!currentSelected.some((s) => s.id === serie.id)) {
+      if (!currentSelected.some((s: any) => s.id === serie.id)) {
         store.patchState({
           selectedSeries: [...currentSelected, serie],
         });
@@ -140,18 +142,22 @@ export class SeriesStore extends signalStore(
     deselectSeries: (serieId: number) => {
       const currentSelected = store.selectedSeries();
       store.patchState({
-        selectedSeries: currentSelected.filter((s) => s.id !== serieId),
+        selectedSeries: currentSelected.filter((s: any) => s.id !== serieId),
       });
     },
 
     toggleSeries: (serie: Serie) => {
       const currentSelected = store.selectedSeries();
-      const isSelected = currentSelected.some((s) => s.id === serie.id);
+      const isSelected = currentSelected.some((s: any) => s.id === serie.id);
 
       if (isSelected) {
-        store.deselectSeries(serie.id);
+        store.patchState({
+          selectedSeries: currentSelected.filter((s: any) => s.id !== serie.id),
+        });
       } else {
-        store.selectSeries(serie);
+        store.patchState({
+          selectedSeries: [...currentSelected, serie],
+        });
       }
     },
 
@@ -168,9 +174,9 @@ export class SeriesStore extends signalStore(
     },
 
     // Helper methods
-    getSelectedSeriesIds: () => store.selectedSeries().map((s) => s.id),
+    getSelectedSeriesIds: () => store.selectedSeries().map((s: any) => s.id),
 
-    getSeriesByType: (type: string) => store.series().find((s) => s.type === type),
+    getSeriesByType: (type: string) => store.series().find((s: any) => s.type === type),
 
     clearError: () => {
       store.patchState({ error: null });
@@ -183,5 +189,6 @@ export class SeriesStore extends signalStore(
     reset: () => {
       store.patchState(initialState);
     },
-  }))
+  }
+})
 ) {}

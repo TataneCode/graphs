@@ -1,7 +1,7 @@
-import { injectionToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 // Configuration for API base URL
-export const API_BASE_URL = injectionToken<string>('API_BASE_URL', {
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL', {
   providedIn: 'root',
   factory: (): string => {
     // Default to localhost for development

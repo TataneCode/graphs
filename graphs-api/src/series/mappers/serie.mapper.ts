@@ -1,7 +1,7 @@
 import { Serie as PrismaSerie, Point as PrismaPoint } from '@prisma/client';
-import { SerieResponseDto } from '../dto/response/serie-response.dto';
-import { CreateSerieDto } from '../dto/request/create-serie.dto';
-import { PointMapper } from '../../points/mappers/point.mapper';
+import { SerieResponseDto } from '@/series/dto/response/serie-response.dto';
+import { CreateSerieDto } from '@/series/dto/request/create-serie.dto';
+import { PointMapper } from '@/points/mappers/point.mapper';
 
 export class SerieMapper {
   static toResponseDto(serie: PrismaSerie & { points?: unknown }): SerieResponseDto {

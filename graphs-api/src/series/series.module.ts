@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SeriesController } from './controllers/series.controller';
-import { SeriesRepository } from './repositories/series.repository';
+import { SeriesController } from '@/series/controllers/series.controller';
+import { SeriesRepository } from '@/series/repositories/series.repository';
 
 @Module({
   controllers: [SeriesController],

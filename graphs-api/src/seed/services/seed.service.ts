@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, Point, FlowerType, Quality } from '@prisma/client';
-import { SeriesRepository } from '../../series/repositories/series.repository';
-import { PointsRepository } from '../../points/repositories/points.repository';
-import { SeedDto } from '../dto/request/seed.dto';
+import { SeriesRepository } from '@/series/repositories/series.repository';
+import { PointsRepository } from '@/points/repositories/points.repository';
+import { SeedDto } from '@/seed/dto/request/seed.dto';
 
 @Injectable()
 export class SeedService {

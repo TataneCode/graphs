@@ -1,5 +1,5 @@
-import { DataUtils } from './data.utils';
-import { Point, Quality } from '../models';
+import { DataUtils } from '@/app/core/utils/data.utils';
+import { Point, Quality } from '@/app/core/models';
 
 describe('DataUtils', () => {
   const mockPoints: Point[] = [

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service';
 import { Serie as PrismaSerie } from '@prisma/client';
-import { SerieMapper } from '../mappers/serie.mapper';
-import { CreateSerieDto } from '../dto/request/create-serie.dto';
-import { UpdateSerieDto } from '../dto/request/update-serie.dto';
-import { FlowerType } from '../../common/enums/flower-type.enum';
+import { SerieMapper } from '@/series/mappers/serie.mapper';
+import { CreateSerieDto } from '@/series/dto/request/create-serie.dto';
+import { UpdateSerieDto } from '@/series/dto/request/update-serie.dto';
+import { FlowerType } from '@/common/enums/flower-type.enum';
 
 @Injectable()
 export class SeriesRepository {
